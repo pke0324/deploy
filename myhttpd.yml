@@ -1,35 +1,35 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata: 
-  name: myhttpd-deploy
+  name: sb-deploy
 spec: 
-  replicas: 3
+  replicas: 1
   selector: 
     matchLabels: 
-      app: myhttpd
+      app: sb
   template: 
     metadata:
       labels:
-        app: myhttpd
+        app: sb
     spec:
       containers:
       - name: ip-container
-        image: 10.7.7.16:5000/myhttpd:1.0
+        image: 10.7.7.16:5000/sbimage:7
         ports:
-        - containerPort: 80
+        - containerPort: 8085
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: svc-httpd
+  name: svc-sb
 spec:
   selector:
-    app: myhttpd
+    app: sb
   ports: 
-    - name: myhttpd-port
+    - name: sb-port
       protocol: TCP
-      nodePort: 32000
-      port: 80
-      targetPort: 80
+      nodePort: 31000
+      port: 8085
+      targetPort: 8085
 
   type: NodePort
